@@ -1,5 +1,11 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Setting things up
+
+Make sure you have [NodeJs](https://nodejs.org/en/) installed in your machine.
+To check whether you have it or not: `node --v` should give you the version in your machine
+
+
 ## Available Scripts
 
 In the project directory, you can run:
