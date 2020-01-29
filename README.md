@@ -5,7 +5,6 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 Make sure you have [NodeJs](https://nodejs.org/en/) installed in your machine.
 To check whether you have it or not: `node --v` should give you the version in your machine
 
-
 ## Available Scripts
 
 In the project directory, you can run:
@@ -17,6 +16,9 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 The page will reload if you make edits.<br />
 You will also see any lint errors in the console.
+
+Make sure to add a valid Google Maps API Key to src/config/index.tsx
+To create one, go to https://console.cloud.google.com/
 
 ### `npm test`
 
