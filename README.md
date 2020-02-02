@@ -3,7 +3,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 ## Setting things up
 
 Make sure you have [NodeJs](https://nodejs.org/en/) installed in your machine.
-To check whether you have it or not: `node --v` should give you the version in your machine
+To check whether you have it or not: `node -v` should give you the version in your machine
 
 
 ## Available Scripts
