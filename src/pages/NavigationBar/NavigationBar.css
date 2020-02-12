@@ -1,0 +1,8 @@
+.nav-wrapper{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.nav-btn{
+    padding: 10px;
+}

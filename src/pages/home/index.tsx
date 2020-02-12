@@ -9,10 +9,9 @@ import './Home.css';
 type HomeProps = {
   context: ConfigType;
   user: User;
-  handleOnLogout: () => void;
 };
 
-const Home: React.FC<HomeProps> = ({ context, user, handleOnLogout }) => {
+const Home: React.FC<HomeProps> = ({ context, user }) => {
   // TODO: the following is to be used once we set up Google Map API properly
   // const { defaultMapView, googleApiKey } = context;
 
