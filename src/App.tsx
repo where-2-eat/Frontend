@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Config, { ConfigType } from "./config";
 import { User } from "./util/types";
 import Login from "./pages/login";
-import Home from "./pages/home";
+import NavigationBar from './pages/NavigationBar/index';
 import { tryReAuthenticating } from "./util/requests";
 
 const App: React.FC = () => {
@@ -16,7 +16,7 @@ const App: React.FC = () => {
 
   if (user) {
     return (
-      <Home user={user} context={context} handleOnLogout={handleOnLogout} />
+      <NavigationBar user={user} context={context} handleOnLogout={handleOnLogout} />
     );
   }
 
