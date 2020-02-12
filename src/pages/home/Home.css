@@ -1,0 +1,41 @@
+
+.image {
+
+    opacity: 0.9;
+    /* Half Page */
+	width: 40%;
+    position: absolute;
+    top: 25%;
+    height: 50%;
+
+
+	/* Center and scale the image nicely */
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center top;
+    background-attachment: fixed;
+    
+    transition: all .2s ease-in-out;
+}
+
+.image:hover {
+    transform: scale(1.1);
+    cursor: pointer;
+}
+.group-image {
+    background-image: url(./media/b6.jpg);
+    left: 8%;
+
+}
+
+.solo-image{
+    background-image: url(./media/bg3.jpg);
+    left: 52%;
+
+}
+
+.login {
+	position: absolute;
+	top: 8px;
+	right: 16px;
+}
