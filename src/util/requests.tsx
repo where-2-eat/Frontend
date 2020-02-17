@@ -1,6 +1,8 @@
 import request from "request";
 import { User, ApiResponse } from "./types";
 import { ConfigType } from "../config";
+import { Location } from "../pages/SimpleMap";
+import { Error } from "../pages/login";
 
 type UserAuthenticate = {
   email: string;
@@ -11,6 +13,29 @@ type UserCreate = UserAuthenticate & {
   firstName: string;
   lastName: string;
 };
+
+function sendGroupLocation(
+  { server }: ConfigType,
+  { lat, lng }: Location
+): Promise<any> {
+  if (!lat || !lng) throw new Error("Missing data.");
+  return asyncPostRequest<Location | Error>(`${server}/api/location`, {
+    lat,
+    lng
+  })
+    .then(location => {
+      const { lat, lng } = location;
+      if (!lat || !lng) throw new Error("Missing User Fields.");
+      return location;
+    })
+    .catch(err => {
+      const error: Error = {
+        type: "Location",
+        message: err
+      };
+      throw error;
+    });
+}
 
 function tryReAuthenticating({ server }: ConfigType): Promise<User> {
   const jwt = localStorage.getItem("token");
@@ -96,4 +121,4 @@ function asyncPostRequest<T>(
   });
 }
 
-export { authenticate, createUser, tryReAuthenticating };
+export { authenticate, createUser, tryReAuthenticating, sendGroupLocation };

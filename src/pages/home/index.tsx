@@ -46,7 +46,9 @@ const Home: React.FC<HomeProps> = ({ context, user }) => {
     <div className="Home">
       <div className="wrapper">
         <div className="group-image image" />
-        <div className="solo-image image" />
+        <Link to="/group">
+          <div className="solo-image image" />
+        </Link>
       </div>
     </div>
 

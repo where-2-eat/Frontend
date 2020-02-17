@@ -1,32 +1,49 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import GoogleMapReact from "google-map-react";
 import Marker from "./Marker";
+import "./SimpleMap.css";
+import { sendGroupLocation } from "../../util/requests";
+import { ConfigType } from "../../config";
+import { Error } from "../login";
 
-const SimpleMap = (props: any) => {
-  const [center, setCenter] = useState({ lat: 45.50503, lng: -73.573511 });
-  const [zoom, setZoom] = useState(15);
-  const [marker, setMarker] = useState(center);
-  const [position, setPosition] = useState({});
-  const [error, setError] = useState("");
-  const onChange = ({ coords }: { coords: any }) => {
-    setPosition({
-      latitude: coords.latitude,
-      longitude: coords.longitude
-    });
-  };
+type SimpleMapProps = {
+  context: ConfigType;
+};
+export type Location = {
+  lat: number;
+  lng: number;
+};
 
-  const onError = (error: any) => {
-    setError(error.message);
-  };
+const SimpleMap: React.FC<SimpleMapProps> = ({ context }) => {
+  const [center] = useState<Location>({
+    lat: 45.50503,
+    lng: -73.573511
+  });
+  const [zoom] = useState<number>(15);
+  const [marker, setMarker] = useState<Location>(center);
+  const [displayConfirm, setDisplayConfirm] = useState<boolean>(false);
+  const [error, setError] = useState<Error>({ message: "", type: "" });
 
-  useEffect(() => {}, []);
-
-  const _setMarker = ({ lat, lng }: { lat: number; lng: number }) => {
+  const _setMarker = ({ lat, lng }: Location) => {
     setMarker({ lat: lat, lng: lng });
+    setDisplayConfirm(true);
   };
 
+  const handleConfirmClick = () => {
+    sendGroupLocation(context, marker)
+      .then(response => alert("Location successfully sent!"))
+      .catch(err => {
+        setError(err);
+        alert("Could not send group location: " + err.message);
+      });
+  };
   return (
-    <div style={{ height: "100vh", width: "100%" }}>
+    <div className="map-wrapper">
+      {displayConfirm && (
+        <button className="confirm-btn" onClick={handleConfirmClick}>
+          Confirm location
+        </button>
+      )}
       <GoogleMapReact
         bootstrapURLKeys={{ key: "AIzaSyAZSDHMCOwasni6ozoypX_VLm4WmoXYndM" }}
         defaultCenter={center}

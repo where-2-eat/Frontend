@@ -10,7 +10,7 @@ type LoginProps = {
   setUser: (user: User) => void;
 };
 
-type Error = {
+export type Error = {
   message: string;
   type: "firstName" | "lastName" | "email" | "password" | "";
 };
