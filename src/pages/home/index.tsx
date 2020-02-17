@@ -2,6 +2,7 @@ import React from "react";
 import { ConfigType } from "../../config";
 import { User } from "../../util/types";
 import './Home.css';
+import { Link } from "react-router-dom";
 
 type HomeProps = {
   context: ConfigType;
