@@ -43,7 +43,7 @@
 	margin: 15px 0;
 }
 
-.SignIn button {
+.SignIn .button {
 	border-radius: 20px;
 	border: 1px solid #FF4B2B;
 	background-color: #FF4B2B;
@@ -56,15 +56,15 @@
 	transition: transform 80ms ease-in;
 }
 
-.SignIn button:active {
+.SignIn .button:active {
 	transform: scale(0.95);
 }
 
-.SignIn button:focus {
+.SignIn .button:focus {
 	outline: none;
 }
 
-.SignIn button.ghost {
+.SignIn .button.ghost {
 	background-color: transparent;
 	border-color: #FFFFFF;
 }
@@ -80,7 +80,7 @@
 	text-align: center;
 }
 
-.SignIn input {
+.SignIn user-inputs input {
 	background-color: #eee;
 	border: none;
 	padding: 12px 15px;

@@ -14,32 +14,49 @@ const Login: React.FC<LoginProps> = ({ context, setUser }) => {
   // State to handle user inputs
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [firstName, setFirstName] = useState<string>("");
+  const [lastName, setLastName] = useState<string>("");
 
   // State to handle panel sliding between sign up/login
   const [panelAnimation, setPanelAnimation] = useState<string>("container");
 
   // Function to handle sliding between sign up and login containers
   const handleSlide = () => {
+    resetState();
     panelAnimation === "container"
       ? setPanelAnimation("container right-panel-active")
       : setPanelAnimation("container");
   };
 
-  // Function to update the state when an email is inputed
-  const handleEmail = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    const {
-      target: { value }
-    } = event;
-    setEmail(value);
+  // Function to reset the state
+  const resetState = () => {
+    setEmail("");
+    setPassword("");
+    setFirstName("");
+    setLastName("");
   };
 
-  // Function to update the state when an password is inputed
-  const handlePassword = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    const {
-      target: { value }
-    } = event;
-    setPassword(value);
-  };
+ // Function to store user inputs in state
+ const handleChange = (
+  event: React.ChangeEvent<HTMLInputElement>,
+  target: string
+) => {
+  switch (target) {
+    case "email":
+      setEmail(event.target.value);
+      break;
+    case "password":
+      setPassword(event.target.value);
+      break;
+    case "firstName":
+      setFirstName(event.target.value);
+      break;
+    case "lastName":
+      setLastName(event.target.value);
+      break;
+    default:
+  }
+};
 
   // For now we will use these functions which "authenticate" a dumby user for now
   const handleOnLogin = () => {
@@ -60,75 +77,70 @@ const Login: React.FC<LoginProps> = ({ context, setUser }) => {
     });
   };
 
-  // TODO: uncomment this when authentication API is done
-  // const handleOnLogin = (
-  //   event: React.MouseEvent<Element, MouseEvent>
-  // ): void => {
-  //   authenticate(context, { email, password })
-  //     .then(setUser)
-  //     .catch(console.log);
-  // };
-  // const handleOnSignUp = (
-  //   event: React.MouseEvent<Element, MouseEvent>
-  // ): void => {
-  //   createUser(context, { email, username, password })
-  //     .then(setUser)
-  //     .catch(console.log);
-  // };
 
   return (
     <div className="SignIn">
       <div className={panelAnimation} id="container">
         <div className="form-container sign-up-container">
-          <form action="#">
+          <form action="#" onSubmit={handleOnSignUp}>
             <h1>Create Account</h1>
-            <div className="social-container">
-              <a href="#" className="social">
-                <i className="fab fa-facebook-f"></i>
-              </a>
-              <a href="#" className="social">
-                <i className="fab fa-google-plus-g"></i>
-              </a>
-              <a href="#" className="social">
-                <i className="fab fa-linkedin-in"></i>
-              </a>
-            </div>
             <span>or use your email for registration</span>
-            <input type="text" placeholder="Name" />
-            <input type="email" placeholder="Email" />
-            <input type="password" placeholder="Password" />
-            <button onClick={handleOnSignUp}>Sign Up</button>
+            <div className="user-inputs">
+              <input
+                type="text"
+                placeholder="First Name"
+                value={firstName}
+                onChange={event => handleChange(event, "firstName")}
+                required
+              />
+              <input
+                type="text"
+                placeholder="Last Name"
+                value={lastName}
+                onChange={event => handleChange(event, "lastName")}
+                required
+              />
+              <input
+                type="email"
+                placeholder="Email"
+                value={email}
+                onChange={event => handleChange(event, "email")}
+                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                required
+              />
+              <input
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={event => handleChange(event, "password")}
+                required
+              />
+            </div>
+            <input type="submit" className="button" value="Submit" />
           </form>
         </div>
         <div className="form-container sign-in-container">
-          <form action="#">
+          <form action="#" onSubmit={handleOnLogin}>
             <h1>Sign in</h1>
-            <div className="social-container">
-              <a href="#" className="social">
-                <i className="fab fa-facebook-f"></i>
-              </a>
-              <a href="#" className="social">
-                <i className="fab fa-google-plus-g"></i>
-              </a>
-              <a href="#" className="social">
-                <i className="fab fa-linkedin-in"></i>
-              </a>
-            </div>
             <span>or use your account</span>
-            <input
-              type="email"
-              onChange={handleEmail}
-              value={email}
-              placeholder="Email"
-            />
-            <input
-              type="password"
-              placeholder="Password"
-              onChange={handlePassword}
-              value={password}
-            />
-            <a href="#">Forgot your password?</a>
-            <button onClick={handleOnLogin}>Sign In</button>
+            <div className="user-inputs">
+              <input
+                type="email"
+                placeholder="Email"
+                value={email}
+                onChange={event => handleChange(event, "email")}
+                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                required
+              />
+              <input
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={event => handleChange(event, "password")}
+                required
+              />
+            </div>
+            <input type="submit" className="button" value="Submit" />
           </form>
         </div>
         <div className="overlay-container">
@@ -138,7 +150,7 @@ const Login: React.FC<LoginProps> = ({ context, setUser }) => {
               <p className="sentence">
                 To keep connected with us please login with your personal info
               </p>
-              <button className="ghost" id="signIn" onClick={handleSlide}>
+              <button className="button ghost" id="signIn" onClick={handleSlide}>
                 Sign In
               </button>
             </div>
@@ -147,7 +159,7 @@ const Login: React.FC<LoginProps> = ({ context, setUser }) => {
               <p className="sentence">
                 Enter your personal details and start journey with us
               </p>
-              <button className="ghost" id="signUp" onClick={handleSlide}>
+              <button className="button ghost" id="signUp" onClick={handleSlide}>
                 Sign Up
               </button>
             </div>

@@ -2,9 +2,6 @@ import React from "react";
 import { ConfigType } from "../../config";
 import { User } from "../../util/types";
 import './Home.css';
-// import GoogleMap from "../../components/map";
-// import { Place, MapView } from "../../components/map/util/types";
-// import { getUserPosition } from "../../components/map/util";
 
 type HomeProps = {
   context: ConfigType;
