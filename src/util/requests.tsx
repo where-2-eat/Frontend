@@ -8,8 +8,8 @@ type UserAuthenticate = {
 };
 
 type UserCreate = UserAuthenticate & {
-  username: string;
-  password: string;
+  firstName: string;
+  lastName: string;
 };
 
 function tryReAuthenticating({ server }: ConfigType): Promise<User> {
@@ -18,8 +18,8 @@ function tryReAuthenticating({ server }: ConfigType): Promise<User> {
 
   return asyncPostRequest<User>(`${server}/reauthenticate`, { jwt })
     .then(user => {
-      const { email, username, jwt } = user;
-      if (!email || !username || !jwt) throw new Error("Missing User Fields.");
+      const { email, password, jwt } = user;
+      if (!email || !password || !jwt) throw new Error("Missing User Fields.");
       return user;
     })
     .then(user => {
@@ -34,8 +34,8 @@ function authenticate(
 ): Promise<User> {
   return asyncPostRequest<User>(`${server}/authenticate`, credentials)
     .then(user => {
-      const { email, username, jwt } = user;
-      if (!email || !username || !jwt) throw new Error("Missing User Fields.");
+      const { email, password, jwt } = user;
+      if (!email || !password || !jwt) throw new Error("Missing User Fields.");
       return user;
     })
     .then(user => {
@@ -47,8 +47,8 @@ function authenticate(
 function createUser({ server }: ConfigType, user: UserCreate): Promise<User> {
   return asyncPostRequest<User>(`${server}/createuser`, user)
     .then(user => {
-      const { email, username, jwt } = user;
-      if (!email || !username || !jwt) throw new Error("Missing User Fields.");
+      const { email, firstName, lastName, jwt } = user;
+      if (!email || !firstName || !lastName || !jwt) throw new Error("Missing User Fields.");
       return user;
     })
     .then(user => {

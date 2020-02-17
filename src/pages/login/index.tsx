@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { User } from "../../util/types";
 import { ConfigType } from "../../config";
 import './Login.css';
-// import { authenticate } from "../../util/requests";
+import { authenticate, createUser } from "../../util/requests";
 
 // TODO: Add this in a seperate type file
 type LoginProps = {
@@ -60,21 +60,35 @@ const Login: React.FC<LoginProps> = ({ context, setUser }) => {
 
   // For now we will use these functions which "authenticate" a dumby user for now
   const handleOnLogin = () => {
-    setUser({
-      email: "test user",
-      username: "test username",
-      signUpDate: "now",
-      jwt: "jwt"
-    });
+    // Fake Data
+    // setUser({
+    //   email: "test user",
+    //   firstName: "test firstName",
+    //   lastName: "test lastName",
+    //   password: "test password",
+    //   signUpDate: "now",
+    //   jwt: "jwt"
+    // });
+
+    authenticate(context, {email, password})
+    .then(setUser)
+    .catch(console.log)
   };
 
   const handleOnSignUp = () => {
-    setUser({
-      email: "test user",
-      username: "test username",
-      signUpDate: "now",
-      jwt: "jwt"
-    });
+    // Fake data
+    // setUser({
+    //   email: "test user",
+    //   firstName: "test firstName",
+    //   lastName: "test lastName",
+    //   password: "test password",
+    //   signUpDate: "now",
+    //   jwt: "jwt"
+    // });
+    createUser(context, {firstName, lastName, email, password})
+    .then(setUser)
+    .catch(console.log)
+
   };
 
 
