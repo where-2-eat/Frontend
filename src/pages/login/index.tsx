@@ -14,6 +14,7 @@ const Login: React.FC<LoginProps> = ({ context, setUser }) => {
   // State to handle user inputs
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [name, setName] = useState<string>("");
 
   // State to handle panel sliding between sign up/login
   const [panelAnimation, setPanelAnimation] = useState<string>("container");
@@ -82,38 +83,16 @@ const Login: React.FC<LoginProps> = ({ context, setUser }) => {
         <div className="form-container sign-up-container">
           <form action="#">
             <h1>Create Account</h1>
-            <div className="social-container">
-              <a href="#" className="social">
-                <i className="fab fa-facebook-f"></i>
-              </a>
-              <a href="#" className="social">
-                <i className="fab fa-google-plus-g"></i>
-              </a>
-              <a href="#" className="social">
-                <i className="fab fa-linkedin-in"></i>
-              </a>
-            </div>
             <span>or use your email for registration</span>
-            <input type="text" placeholder="Name" />
-            <input type="email" placeholder="Email" />
-            <input type="password" placeholder="Password" />
-            <button onClick={handleOnSignUp}>Sign Up</button>
+            <input type="text" placeholder="Name" value={name} onChange={(ev) => setName(ev.target.value)} required/>
+            <input type="email" placeholder="Email" value={email} onChange={(ev) => setEmail(ev.target.value)} required/>
+            <input type="password" placeholder="Password" onChange={(ev) => setPassword(ev.target.value)} required/>
+            <button onClick={handleOnSignUp} type="submit">Sign Up</button>
           </form>
         </div>
         <div className="form-container sign-in-container">
           <form action="#">
             <h1>Sign in</h1>
-            <div className="social-container">
-              <a href="#" className="social">
-                <i className="fab fa-facebook-f"></i>
-              </a>
-              <a href="#" className="social">
-                <i className="fab fa-google-plus-g"></i>
-              </a>
-              <a href="#" className="social">
-                <i className="fab fa-linkedin-in"></i>
-              </a>
-            </div>
             <span>or use your account</span>
             <input
               type="email"
@@ -127,7 +106,6 @@ const Login: React.FC<LoginProps> = ({ context, setUser }) => {
               onChange={handlePassword}
               value={password}
             />
-            <a href="#">Forgot your password?</a>
             <button onClick={handleOnLogin}>Sign In</button>
           </form>
         </div>
