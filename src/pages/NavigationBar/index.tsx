@@ -1,6 +1,7 @@
 import React from 'react';
 import './NavigationBar.css';
 import Home from '../home';
+import SimpleMap from '../SimpleMap';
 import {
   BrowserRouter as Router,
   Route,
@@ -9,6 +10,7 @@ import {
 } from "react-router-dom";
 import { ConfigType } from "../../config";
 import { User } from "../../util/types";
+
 type NavProps = {
   context: ConfigType;
   user: User;
@@ -31,6 +33,7 @@ const NavigationBar: React.FC<NavProps> = ({ context, user, handleOnLogout }) =>
                     <Route exact path="/" component={() => <Home user={user} context={context}></Home>} />
                     <Route path="/about" component={About} />
                     <Route path="/account" component={Account} />
+                    <Route path="/group" component={() => <SimpleMap /> } />
                   </Switch>
                 </div>
               </Router>

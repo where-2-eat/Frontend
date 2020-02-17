@@ -14,22 +14,29 @@ const App: React.FC = () => {
     localStorage.removeItem("token");
   };
 
-  if (user) {
+    const fakeUser: User = {
+      email: "test user",
+      username: "test username",
+      signUpDate: "now",
+      jwt: "jwt"
+    };
+
+  // if (user) {
     return (
-      <NavigationBar user={user} context={context} handleOnLogout={handleOnLogout} />
+      <NavigationBar user={fakeUser} context={context} handleOnLogout={handleOnLogout} />
     );
-  }
+  // }
 
-  tryReAuthenticating(context)
-    .then(setUser)
-    .catch(console.log);
+  // tryReAuthenticating(context)
+  //   .then(setUser)
+  //   .catch(console.log);
 
-      return (
-        <Login
-          context={context}
-          setUser={setUser}
-        />
-      );
+  //     return (
+  //       <Login
+  //         context={context}
+  //         setUser={setUser}
+  //       />
+  //     );
 };
 
 export default App;
