@@ -1,16 +1,47 @@
 import React from "react";
+import DeleteIcon from "@material-ui/icons/Delete";
+import RoomIcon from "@material-ui/icons/Room";
+import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
+import { makeStyles, Theme, createStyles } from "@material-ui/core";
+import { IconType } from "./types";
 
-const icons: { [key: string]: string } = {
-  trash:
-    "M192 1024h640l64-704h-768zM640 128v-128h-256v128h-320v192l64-64h768l64 64v-192h-320zM576 128h-128v-64h128v64z",
-  marker:
-    "M512 0c-176.732 0-320 143.268-320 320 0 320 320 704 320 704s320-384 320-704c0-176.732-143.27-320-320-320zM512 516c-108.248 0-196-87.752-196-196s87.752-196 196-196 196 87.752 196 196-87.752 196-196 196zM388 320c0-68.483 55.517-124 124-124s124 55.517 124 124c0 68.483-55.517 124-124 124s-124-55.517-124-124z"
-};
-
-const Icon = ({ icon }: { icon: string }) => (
-  <svg width="22" height="22" viewBox="0 0 1024 1024">
-    <path d={icons[icon]}></path>
-  </svg>
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    red: {
+      color: "#c0392b"
+    },
+    yellow: {
+      color: "#f1c40f"
+    },
+    green: {
+      color: "#2ecc71"
+    }
+  })
 );
+
+const Icon = ({ icon }: { icon: IconType }) => {
+  const classes = useStyles();
+
+  switch (icon) {
+    case "user":
+      return <FiberManualRecordIcon fontSize="small" color="primary" />;
+    case "trash":
+      return <DeleteIcon />;
+    case "red":
+      return (
+        <RoomIcon fontSize="large" color="inherit" className={classes.red} />
+      );
+    case "yellow":
+      return (
+        <RoomIcon fontSize="large" color="inherit" className={classes.yellow} />
+      );
+    case "green":
+      return (
+        <RoomIcon fontSize="large" color="inherit" className={classes.green} />
+      );
+    default:
+      return <RoomIcon fontSize="large" color="secondary" />;
+  }
+};
 
 export { Icon };

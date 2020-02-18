@@ -1,32 +1,43 @@
 import React, { useState } from "react";
-import { User } from "../../util/types";
-import { ConfigType } from "../../config";
 import "./Login.css";
-import { authenticate, createUser } from "../../util/requests";
+import { SystemUser_ } from "../../util/models";
+import { FormError } from "../../util/types";
+import { authenticate, createUser } from "../../util/requests/auth";
+import { ConfigType } from "../../config";
 
-// TODO: Add this in a seperate type file
+/** TODO remove this when backend implemented */
+const dummyUser: SystemUser_ = {
+  userId: "",
+  firstName: "",
+  lastName: "",
+  jwt: "",
+  loginInformation: {
+    userName: ""
+  },
+  userPreferences: {
+    foodRestriction: [],
+    restaurantType: []
+  }
+};
+
+type LoginFormError = "firstName" | "lastName" | "email" | "password" | "";
 type LoginProps = {
-  context: ConfigType;
-  setUser: (user: User) => void;
+  config: ConfigType;
+  setUser: (user: SystemUser_) => void;
 };
 
-export type Error = {
-  message: string;
-  type: "firstName" | "lastName" | "email" | "password" | "";
-};
-
-const Login: React.FC<LoginProps> = ({ context, setUser }) => {
-  // State to handle user inputs
+const Login: React.FC<LoginProps> = ({ config, setUser }) => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
-  const [error, setError] = useState<Error>({ message: "", type: "" });
+  const [error, setError] = useState<FormError<LoginFormError>>({
+    message: "",
+    type: ""
+  });
 
-  // State to handle panel sliding between sign up/login
   const [panelAnimation, setPanelAnimation] = useState<string>("container");
 
-  // Function to handle sliding between sign up and login containers
   const handleSlide = () => {
     resetState();
     panelAnimation === "container"
@@ -34,7 +45,6 @@ const Login: React.FC<LoginProps> = ({ context, setUser }) => {
       : setPanelAnimation("container");
   };
 
-  // Function to reset the state
   const resetState = () => {
     setEmail("");
     setPassword("");
@@ -43,7 +53,6 @@ const Login: React.FC<LoginProps> = ({ context, setUser }) => {
     setError({ message: "", type: "" });
   };
 
-  // Function to store user inputs in state
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement>,
     target: string
@@ -65,43 +74,34 @@ const Login: React.FC<LoginProps> = ({ context, setUser }) => {
     }
   };
 
-  // For now we will use these functions which "authenticate" a dumby user for now
   const handleOnLogin = () => {
-    // Fake Data
-    setUser({
-      email: "test user",
-      firstName: "test firstName",
-      lastName: "test lastName",
-      password: "test password",
-      signUpDate: "now",
-      jwt: "jwt"
-    });
+    authenticate(config, { userName: email, password })
+      .then(setUser)
+      .catch((error: Error) => {
+        console.log(error);
+        setError({ message: error.message, type: "" });
+      })
 
-    //TODO: uncomment this request
-    // authenticate(context, { email, password })
-    //   .then(setUser)
-    //   .catch((error: Error) => {
-    //     setError(error);
-    //   });
+      /** TODO remove this when backend implemented */
+      .finally(() => setUser(dummyUser));
   };
 
   const handleOnSignUp = () => {
-    // Fake data
-    setUser({
-      email: "test user",
-      firstName: "test firstName",
-      lastName: "test lastName",
-      password: "test password",
-      signUpDate: "now",
-      jwt: "jwt"
-    });
+    createUser(config, {
+      firstName,
+      lastName,
+      loginInformation: { userName: email, password },
+      /* TODO add foodRestriction & restaurantType */
+      userPreferences: { foodRestriction: [], restaurantType: [] }
+    })
+      .then(setUser)
+      .catch((error: Error) => {
+        console.log(error);
+        setError({ message: error.message, type: "" });
+      })
 
-    //TODO: uncomment this request
-    // createUser(context, { firstName, lastName, email, password })
-    //   .then(setUser)
-    //   .catch((error: Error) => {
-    //     setError(error);
-    //   });
+      /** TODO remove this when backend implemented */
+      .finally(() => setUser(dummyUser));
   };
 
   return (

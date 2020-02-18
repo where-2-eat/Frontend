@@ -1,11 +1,10 @@
-export type User = {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-  signUpDate: string;
+import { ConfigType } from "../config";
+import { SystemUser_ } from "./models";
 
-  jwt: string;
+export type AppContext = {
+  config: ConfigType;
+  user: SystemUser_;
+  googleApiKey: string;
 };
 
 export type ApiResponse<T> = {
@@ -15,4 +14,7 @@ export type ApiResponse<T> = {
   data?: T;
 };
 
-export type LoginOrSignUp = "login" | "signup";
+export type FormError<T> = {
+  message: string;
+  type: T;
+};
