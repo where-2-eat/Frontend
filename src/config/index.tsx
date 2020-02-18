@@ -1,6 +1,5 @@
 export type ConfigType = {
   server: string;
-  googleApiKey: string;
   defaultMapView: {
     lat: number;
     lng: number;
@@ -32,8 +31,7 @@ function Config(): ConfigType {
   switch (ENV) {
     case "development":
       return {
-        server: "http://localhost:4000",
-        googleApiKey: "",
+        server: "http://localhost:8081",
         defaultMapView: {
           lat: 45.5017,
           lng: -73.5673,
@@ -44,7 +42,6 @@ function Config(): ConfigType {
     case "production":
       return {
         server: "",
-        googleApiKey: "",
         defaultMapView: {
           lat: 45.5017,
           lng: -73.5673,
@@ -55,7 +52,6 @@ function Config(): ConfigType {
     default:
       return {
         server: "",
-        googleApiKey: "",
         defaultMapView: {
           lat: 0,
           lng: 0,

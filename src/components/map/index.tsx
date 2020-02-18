@@ -1,8 +1,9 @@
 import React from "react";
 import GoogleMapReact from "google-map-react";
-import { Place, MapView } from "./util/types";
+import { Marker, MapView, LatLng } from "./util/types";
 import { styles } from "./util/styles";
-import Marker from "./marker";
+import MarkerIcon from "./marker/marker";
+import "./Map.css";
 
 type GoogleMapWrapperProps = {
   apiKey: string;
@@ -10,11 +11,15 @@ type GoogleMapWrapperProps = {
   mapView: MapView;
   defaultView: MapView;
 
-  places: Place[];
-  selectedPlace: Place | undefined;
+  marker?: LatLng;
+  markers: Marker[];
+  selectedMarker: Marker | undefined;
 
-  handleOnPlaceClick?: (place: Place) => void;
+  handleOnMarkerClick?: (marker: Marker) => void;
   onMapChange?: (location: MapView) => void;
+  onMapClick?: (location: LatLng) => void;
+
+  geolocation?: LatLng;
 };
 
 /**
@@ -31,12 +36,19 @@ const GoogleMapWrapper: React.FC<GoogleMapWrapperProps> = ({
   apiKey,
   mapView,
   defaultView,
-  places,
-  selectedPlace,
-  handleOnPlaceClick,
-  onMapChange
+  marker,
+  markers,
+  selectedMarker,
+  handleOnMarkerClick,
+  onMapChange,
+  onMapClick,
+  geolocation
 }) => {
   const { lat, lng, zoom } = mapView;
+
+  const handleOnClick = (event: any) => {
+    if (!!onMapClick) onMapClick(event);
+  };
 
   const handleOnChange = (event: any) => {
     if (!!event && !!event.center && !!event.zoom) {
@@ -56,33 +68,55 @@ const GoogleMapWrapper: React.FC<GoogleMapWrapperProps> = ({
     );
   }
 
+  const center: LatLng = selectedMarker ? { ...selectedMarker } : { lat, lng };
+
   return (
-    <div style={{ height: "100vh", width: "100%" }}>
+    <div className="map-wrapper">
       <GoogleMapReact
         yesIWantToUseGoogleMapApiInternals
         bootstrapURLKeys={{ key: apiKey }}
-        options={{ styles }}
+        options={{ styles, panControl: true }}
         /** Center & Zoom */
         defaultCenter={{ ...defaultView }}
-        defaultZoom={defaultView.zoom}
-        center={{ lat, lng }}
+        center={center}
         zoom={zoom}
         /** Handlers */
         onChange={handleOnChange}
-
-        /** TODO - info windows ??? */
-        /** TODO - selectedPlace ??? */
+        onClick={handleOnClick}
       >
-        {places.map(place => {
-          const handleOnMarkerClick = (): void => {
-            if (!!handleOnPlaceClick) handleOnPlaceClick(place);
+        {!!geolocation && (
+          <MarkerIcon
+            key="user"
+            lat={geolocation.lat}
+            lng={geolocation.lng}
+            icon="user"
+          />
+        )}
+
+        {!!marker && (
+          <MarkerIcon
+            key={"marker"}
+            lat={marker.lat}
+            lng={marker.lng}
+            icon={"user"}
+            name="My Marker"
+            color="blue"
+            draggable={true}
+          />
+        )}
+
+        {markers.map(marker => {
+          const onMarkerClick = (): void => {
+            if (!!handleOnMarkerClick) handleOnMarkerClick(marker);
           };
 
           return (
-            <Marker
-              key={place.placeId}
-              icon={"icon"}
-              handleOnClick={handleOnMarkerClick}
+            <MarkerIcon
+              key={marker.placeId}
+              lat={marker.lat}
+              lng={marker.lng}
+              icon={marker.icon}
+              handleOnClick={onMarkerClick}
             />
           );
         })}

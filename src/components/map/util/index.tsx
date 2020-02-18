@@ -46,4 +46,10 @@ const ZoomToDistance: { [zoom: number]: number } = {
   1: 591657550.5
 };
 
-export { ZoomToDistance, getUserPosition };
+const zoomToRadius = (zoom: number) => ZoomToDistance[zoom] / 8 || 1;
+const zoomToRadius2 = (lat: number, zoom: number) =>
+  (((156543.03392 * Math.cos((lat * Math.PI) / 180)) / Math.pow(2, zoom)) *
+    10000) /
+  8;
+
+export { zoomToRadius, zoomToRadius2, getUserPosition };
